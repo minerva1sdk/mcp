@@ -85,8 +85,7 @@ https://connect.minerva1.com/connect/personal and paste it into the secure crede
 - get_run_status — read; respect poll_after_seconds (optimizations take minutes to hours). Minerva emails the person
   when a run finishes, so for a long run tell them to watch for that email instead of polling
 - list_runs — read; recent runs newest first, each with the `dates` it tried and, once finished, its `results` in
-  the reporting order below, so one call compares runs. `report_unread` true means it finished and its report has
-  not been read through get_run_report: read it
+  the reporting order below, so one call compares runs
 - get_run_report — read; put `summary_view.markdown` in your reply exactly as given, with its headings and tables:
   the top of the rich P&L report (for an optimization, the Sharpe Ratio, LuckFactor and RobustGrade, the
   development and holdout periods, the performance boxes, the comparison with the list's members, equal weight, and
