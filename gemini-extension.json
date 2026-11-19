@@ -1,0 +1,10 @@
+{
+  "name": "minerva-connect",
+  "version": "1.0.0",
+  "description": "Backtest, optimize and build stock trading strategies and signals on your own Minerva account.",
+  "mcpServers": {
+    "minerva": {
+      "httpUrl": "https://connect.minerva1.com/mcp"
+    }
+  }
+}

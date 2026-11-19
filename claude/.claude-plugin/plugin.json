@@ -1,0 +1,25 @@
+{
+  "name": "minerva-connect",
+  "displayName": "Minerva Connect",
+  "version": "1.0.0",
+  "description": "Backtest, optimize and build stock trading strategies and signals on your own Minerva account.",
+  "author": {
+    "name": "Minerva",
+    "email": "matt@minerva1.com",
+    "url": "https://minerva1.com"
+  },
+  "homepage": "https://connect.minerva1.com",
+  "repository": "https://github.com/minerva1sdk/mcp",
+  "license": "MIT",
+  "keywords": [
+    "backtest",
+    "optimization",
+    "trading strategy",
+    "stocks"
+  ],
+  "icon": "./assets/logo.png",
+  "documentationUrl": "https://minerva1.com/docs",
+  "privacyPolicyUrl": "https://minerva1.com/legal/privacy",
+  "termsOfServiceUrl": "https://minerva1.com/legal/terms",
+  "supportUrl": "https://minerva1.com/support"
+}

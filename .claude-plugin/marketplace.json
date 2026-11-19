@@ -1,0 +1,16 @@
+{
+  "name": "minerva-connect",
+  "owner": {
+    "name": "Minerva",
+    "email": "matt@minerva1.com",
+    "url": "https://minerva1.com"
+  },
+  "description": "Minerva Connect for Claude Code.",
+  "plugins": [
+    {
+      "name": "minerva-connect",
+      "source": "./claude",
+      "description": "Backtest, optimize and build stock trading strategies and signals on your own Minerva account."
+    }
+  ]
+}
