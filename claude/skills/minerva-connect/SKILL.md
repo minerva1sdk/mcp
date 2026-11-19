@@ -1,6 +1,6 @@
 ---
 name: minerva-connect
-description: Backtest, optimize and build stock trading strategies and signals on the person's Minerva account with the Minerva Connect tools. Use when the person wants to test, backtest, optimize or tune a trading strategy or signal; build a strategy from their own words or from a paper, web page or post; read or compare Minerva runs and reports (Sharpe Ratio, LuckFactor, RobustGrade, MinervaScore); or check or buy Minerva credits.
+description: Backtest, optimize and build stock trading strategies and signals on the person's Minerva account with the Minerva Connect tools. Use when the person wants to test, backtest, optimize or tune a trading strategy or signal; build a strategy from their own words or from a paper, web page or post; read or compare Minerva runs and reports (Sharpe Ratio, LuckFactor, RobustGrade, MinervaScore); or check Minerva credits.
 ---
 
 # Minerva Connect
@@ -17,7 +17,7 @@ https://connect.minerva1.com/connect/personal and paste it into the secure crede
 - get_started — read; call it first when a person starts using Minerva without asking for something specific (a
   greeting, "what can Minerva do?", "how do I start?"). Its answer is the welcome: one line on what Minerva does, the
   three ways to begin a strategy (describe a strategy, start from a paper or link, or build one step by step), the
-  guides, the workflow with each step's price and where to buy credits. Hosts that show app views draw it with a button for each way. Reply in at most two short sentences: the
+  guides and the workflow with each step's price. Hosts that show app views draw it with a button for each way. Reply in at most two short sentences: the
   `about` line when the person asked what Minerva does, and the question naming the three ways; say nothing more
   until the person picks a way or asks. Each way's `agent_steps` says how to carry it out. Call get_started also
   when the person's first message already picks one of the three ways (for example "I want to describe a trading
@@ -47,12 +47,12 @@ https://connect.minerva1.com/connect/personal and paste it into the secure crede
   session. A routed signal's `peers_bought` (Leader Breakout Liquid Peer, Extreme Leader Residual Bollinger: 0 buys
   the leader itself; 1 to 5, how many members of the leader's Peer Group each purchase event buys, most liquid first)
   is set per run and never searched, so pass it with `optimize` false; at 0, leave `liquidity_lookback_bars` out.
-  Results compare the account with its benchmark, the same stocks held equally (`headline.one_account`): first both
-  Sharpe Ratios over the same sessions (`daily_newey_west_sharpe`, `same_stocks_daily_newey_west_sharpe`), then both
-  CAGRs and maximum drawdowns.
+  Results compare the account with its benchmark, the list's members on each date held in equal amounts, rebalanced
+  every bar, before costs (`headline.one_account`): first both Sharpe Ratios over the same sessions
+  (`daily_newey_west_sharpe`, `same_stocks_daily_newey_west_sharpe`), then both CAGRs and maximum drawdowns.
   `side_mode` can instead short the weakest stocks the signal says to short (its search ranks settings on its
-  returns against the same stocks held short) or hold both sides with half the account each (its search ranks
-  settings on its own returns). A signal whose rotation block
+  returns against the list's members held short in equal amounts) or hold both sides with half the account each
+  (its search ranks settings on its own returns). A signal whose rotation block
   says `short_rule` `none` only holds long or stays in cash, so it can't hold short positions; a factor rule
   (`side_setting`) shorts only with `side_mode` 1 or 2, a long-short rotation needs `side_mode` 1, and a long-only
   rotation `side_mode` 0 or 1.
@@ -62,7 +62,8 @@ https://connect.minerva1.com/connect/personal and paste it into the secure crede
   volume, signal strength), weights and positions are open, with the reason for the rest (each weight lists the bar sizes it runs at in `timeframes`); pass a choice in the rotation block only when the user asks for it. A signal that sets its own
   exits (family `own_exits`) takes no `rerank_bars` and no other choices. Pairs signals and point-in-time universes
   cannot rotate. A rotation optimization gets a LuckFactor and a RobustGrade, as an each-stock one does, on the
-  amount-held basis against its benchmark, the same stocks held equally.
+  amount-held basis against its benchmark, the list's members on each date held in equal amounts, rebalanced every
+  bar, before costs.
 - quote_backtest, quote_optimization — read; ALWAYS quote first and show both Standard and Fast. Standard minimizes
   isolated execution cost; Fast minimizes compute time. They may have the same price, time or host. State each
   option's credits, compute time, expected wait and availability reason. A conditional pickup estimate can change.
@@ -88,8 +89,8 @@ https://connect.minerva1.com/connect/personal and paste it into the secure crede
   not been read through get_run_report: read it
 - get_run_report — read; put `summary_view.markdown` in your reply exactly as given, with its headings and tables:
   the top of the rich P&L report (for an optimization, the Sharpe Ratio, LuckFactor and RobustGrade, the
-  development and holdout periods, the performance boxes, the comparison with the same stocks held equally and Edge
-  & Robustness), ending with the link to the full report (`html_url`, open without sign-in for 24 hours). Never
+  development and holdout periods, the performance boxes, the comparison with the list's members, equal weight, and
+  Edge & Robustness), ending with the link to the full report (`html_url`, open without sign-in for 24 hours). Never
   rebuild it as your own table or leave out, reorder or reword its sections; your own comments go after it, and you
   show it even when your chat also draws the in-chat view. Offer `results_url` (the run in My Results; sign-in
   required, does not expire). A
@@ -110,15 +111,17 @@ https://connect.minerva1.com/connect/personal and paste it into the secure crede
      backtest's `headline` gives the median and best across its stocks (`median_daily_newey_west_sharpe`,
      `best_daily_newey_west_sharpe`). An optimization's is its holdout period's, which covers only the last part of
      the range; a one-account rotation's report names the holdout period's dates. For a one-account rotation, give
-     the account's and its benchmark's (the same stocks held equally) Sharpe Ratios
+     the account's and its benchmark's (the list's members on each date held in equal amounts, rebalanced every bar,
+     before costs) Sharpe Ratios
      (`headline.one_account.daily_newey_west_sharpe`, `same_stocks_daily_newey_west_sharpe`).
   2. LuckFactor and RobustGrade, when the run has them (an optimization), from its `measures`: `luckfactor`, a
      percentage where lower is better, and `robustgrade`, 0 to 99 where higher is better, with its weakest part
      (`robustgrade_weakest`). An optimization has no MinervaScore: the MinervaScore is served in reports only.
   3. The CAGR and the maximum drawdown.
   Compare runs and settings by their Sharpe Ratios, not their CAGRs. A run's benchmark is only what Minerva defines
-  as one: "What you could have held instead: the same stock, for a single-stock strategy; the same stocks held
-  equally, for every rotation (long-only, short-only or long-short) and every report." A strategy report also draws
+  as one: "What you could have held instead: the same stock, for a single-stock strategy; the list's members on
+  each date held in equal amounts, rebalanced every bar, before costs, for every rotation (long-only, short-only or
+  long-short) and every report." A strategy report also draws
   the S&P 500 (SPY), the Nasdaq-100 (QQQ) and 60/40 for comparison, each by its name; never give index or market
   figures from anywhere else as if Minerva measured them. A run with no
   Sharpe Ratio (fewer than 10 sessions, or from before Minerva reported one) has none: say so rather than giving
@@ -174,8 +177,8 @@ https://connect.minerva1.com/connect/personal and paste it into the secure crede
   or robustness numbers mean, read get_documentation section measures/overview, then the section of the measure
   asked about, answer from that text, and give the person the page's url
   (https://minerva1.com/docs/minerva-luck-and-robustness-measures.html)
-- get_credit_balance — read; the user's own Minerva credit balance, the same one minerva1.com shows
-- buy_credits — read; returns the link to buy credits on Minerva. The connector takes no payments itself
+- get_credit_balance — read; the user's own Minerva credit balance, the same one minerva1.com shows, and the link to
+  Minerva's plans page. The connector takes no payments and sells nothing
 
 ## Strategies (the strategy builder)
 - list_strategy_modules — read; every module a strategy can use now, by family (Rankings, Series, Filters, Market,
@@ -248,10 +251,11 @@ https://connect.minerva1.com/connect/personal and paste it into the secure crede
 ## Money
 - Runs are charged to the user's OWN Minerva account, in the same credits minerva1.com shows. There is no
   separate connector balance and no separate card.
-- Minerva requires an active subscription to run anything and to buy credits. If the user has none, the tool
-  answers `subscription_required` with a link — give them the link, do not retry.
-- If they are out of credits the tool answers with the shortfall and a link to buy more. Credits bought on
-  minerva1.com work here immediately; there is nothing to poll.
+- Running through Minerva Connect needs a Minerva Connect account and no paid Minerva plan. Every run is still
+  quoted in credits first and charged in credits.
+- If they are out of credits the tool answers with the shortfall: credits are bought on minerva1.com, and the
+  answer links to Minerva's plans page. Credits bought on minerva1.com work here immediately; there is nothing to
+  poll.
 - A universe backtest's quote is a MAXIMUM, not a price. Minerva drops tickers it has no data for in the
   chosen window and charges only for the rest; say "up to N credits". A one-account rotation backtest costs the
   same as a universe backtest of its whole list, and its quote is the exact price.
@@ -277,8 +281,7 @@ https://connect.minerva1.com/connect/personal and paste it into the secure crede
 
 ## Do not
 - Do not present results as investment advice. Report metrics as historical test statistics.
-- Do not retry a run after quote_changed, insufficient_credits, subscription_required or reconnect_required
-  without the user acting first.
+- Do not retry a run after quote_changed, insufficient_credits or reconnect_required without the user acting first.
 - Do not resubmit after submit_pending; call get_run_status with the job_id you were given.
 - Do not cancel a run unless the user asked you to.
 - Do not poll status faster than poll_after_seconds.
