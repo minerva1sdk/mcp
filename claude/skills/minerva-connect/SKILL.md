@@ -67,7 +67,7 @@ https://connect.minerva1.com/connect/personal and paste it into the secure crede
 - quote_backtest, quote_optimization — read; ALWAYS quote first and show both Standard and Fast. Standard minimizes
   isolated execution cost; Fast minimizes compute time. They may have the same price, time or host. State each
   option's credits, compute time, expected wait and availability reason. A conditional pickup estimate can change.
-- run_backtest, run_optimization — write; after approval, pass the chosen `routing`, `quote_id`, `approved_units`
+- run_backtest, run_optimization — destructive (they spend credits); after approval, pass the chosen `routing`, `quote_id`, `approved_units`
   and its exact `expected_credits`, with the quoted spec unchanged. Quote identity is separate from execution identity.
   A definitive changed/expired quote, capacity refusal or replay mismatch requires renewed approval; do not retry
   it automatically. `submit_pending` means the same request is being reconciled: poll that run, never create another.
